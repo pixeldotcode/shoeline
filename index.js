@@ -14,8 +14,10 @@ io.on('connection', (socket) => {
     console.log(`Client connected: ${socket.id}`);
 
     socket.on('message', (data) => {
-        console.log(`Message from ${socket.id}: ${data}`);
-        io.to(socket.id).emit('message', `You said: ${data}`);
+        console.log(`Message from ${socket.id}: ${data.username} - ${data.message}`);
+
+        // Broadcast the message to all connected clients
+        io.emit('message', `${data.username}: ${data.message}`);
     });
 
     socket.on('disconnect', () => {
